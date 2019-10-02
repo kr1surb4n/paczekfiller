@@ -1,0 +1,218 @@
+* general idea
+this is project that will end up me having
+a softec that will take template and optionaly a destination
+folder (current dir is default).
+
+'paczekfiller template_file <destination>'
+
+i want to load the files using fzf from a list in coat.
+so the requirement will be fzf
+coat will be some default environment variable
+
+so the command above will be in a script
+#+begin_quote
+PACZEK_FILLINGS=~/.paczek
+
+# there is 
+
+paczekfiller $(fzf $PACZEK_FILLINGS) $1
+#+end_quote
+
+plus some stuff around
+
+what will the the ~paczekfiller~ do?
+
+it will check the filename for '.tpl'
+the file is copied to the
+set location
+
+if it will have '.tpl
+it will load the file template in jinja2
+it will check the file for variables in those templates
+
+if there are variables:
+- path of the new file
+- will extract the variables
+- will loop through them and ask user for each value, and will store it
+- will use those values to populate the template
+- will save rendered template into a file under path created 
+
+each variable will be:
+written like that: Master_branch, Your_first_name
+those variables will have _ replace with spaces
+and such string will be used as the user prompt
+
+i want some default values to be there inserted.
+is that possible?
+
+<2019-09-27 pią>
+i made more reasearch and done some drawing in dia
+dia, is still the best free diagram editor
+
+so i gather parts of functions but i start
+to see that  if i want to make something smaller
+and nicer it has to have objects which interact with
+each other.
+
+i can have input object, which will handle:
+- validating values
+  - existence of a path
+  - name
+  
+- providing data in useful form:
+  - absolute path
+  - output filename and path (this might be in another object done
+so there will be one object for input and other for output(made from
+input))
+
+wait a moment
+
+i load stuff with jinja2. this takes from me the
+the problem of handling the existence of the file.
+
+## if a template doesnt have the any variables
+## it can be executed with empty dict
+
+if i folow everything as a process with jinja2
+i will have two cases: when there are variables and not.
+
+the later is the moment when i save everything and go home
+
+* colonel board
+
+** TODO 
+*** preserve file permissions
+*** get current directory
+*** DONE generate new paths
+    CLOSED: [2019-10-01 wto 19:49]
+#+BEGIN_SRC python
+import os
+
+os.path.join(CWD, filename)
+#+END_SRC
+
+*** DONE extract variables from a template
+    CLOSED: [2019-10-01 wto 19:49]
+#+BEGIN_SRC python
+/home/blue/temp/f.py
+from jinja2 import Environment, meta, FileSystemLoader, select_autoescape
+loader = FileSystemLoader('/home/blue/temp', followlinks=True)
+
+env = Environment(
+    loader=loader,
+    autoescape=select_autoescape(['html', 'xml'])
+)
+
+template = env.get_template('mytemplate.html')
+
+def template_content(tpl):
+    with open(tpl.filename) as f:
+            return f.read()
+
+contents = template_content(template)
+
+meta.find_undeclared_variables(env.parse(contents) # gives me a set
+
+print(template.render(the='variables', go='here'))
+
+#+END_SRC
+
+*** DONE do the text transformation of the variables names
+    CLOSED: [2019-10-01 wto 19:50]
+#+BEGIN_SRC python
+prompt_message = "Some_varible"
+prompt_message.split("_")  # happy face
+#+END_SRC
+
+*** DONE Variable object
+    CLOSED: [2019-10-01 wto 20:03]
+#+BEGIN_SRC python
+DELIM = '_'
+
+class Variable:
+    """Representation of the template variable
+    that will handle the user input"""
+
+    def __init__(self, variable_name):
+        self.key = variable_name
+        self.message = self.key.split(DELIM)
+
+        self.prompt()
+
+    def prompt():
+        """Ask user for value"""
+        return input(self.message)
+
+    def read():
+        """Read the value and return it"""
+        value = self.prompt()
+         
+        return value
+
+#+END_SRC
+
+*** DONE write a prompt in a loop
+    CLOSED: [2019-10-01 wto 20:03]
+#+BEGIN_SRC python
+
+value = input(prompt_message)
+
+#+END_SRC
+
+*** DONE load template
+    CLOSED: [2019-10-01 wto 20:03]
+
+#+BEGIN_SRC python
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+loader = FileSystemLoader('/path/to/templates', followlinks=True)
+
+env = Environment(
+    loader=PackageLoader('yourapplication', 'templates'),
+    autoescape=select_autoescape(['html', 'xml'])
+)
+
+template = env.get_template('mytemplate.html')
+
+print(template.render(the='variables', go='here'))
+
+#+END_SRC
+
+*** DONE store the values of variables
+    CLOSED: [2019-10-01 wto 20:03]
+def context():
+    return { v.key: v.read() for v in (Variable(name) for name in extract_variables())}
+
+*** populate the template with values and save the contents under path
+#+BEGIN_SRC python
+
+with open(filepath, 'w') as file:
+    file.write(template.render(context))
+    # TODO: preserve permissions
+#+END_SRC
+
+** STARTED 
+
+** DONE 
+   CLOSED: [2019-09-24 wto 14:58]
+
+*** DONE can i set somehow the default value for the variables?
+    CLOSED: [2019-09-24 wto 17:24]
+ default function in jinja2:
+ ~{{ my_variable|default('my_variable is not defined') }}~
+
+
+* Lieutenant notes
+
+** extract variables
+#+begin_quote
+>>> from jinja2 import Environment, meta
+>>> env = Environment()
+>>> ast = env.parse('{% set foo = 42 %}{{ bar + foo }}')
+>>> meta.find_undeclared_variables(ast) == set(['bar'])
+#+end_quote
+
+** default value of template variable
+ default function in jinja2:
+ ~{{ my_variable|default('my_variable is not defined') }}~
+
+
