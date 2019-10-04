@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-
 """Console script for copypaster."""
 import sys
 import click
 
 from paczekfiller.paczekfiller import main_function
+
 
 @click.command()
 @click.argument('template_name')

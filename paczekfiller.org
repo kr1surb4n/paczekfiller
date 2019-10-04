@@ -182,7 +182,8 @@ print(template.render(the='variables', go='here'))
 def context():
     return { v.key: v.read() for v in (Variable(name) for name in extract_variables())}
 
-*** populate the template with values and save the contents under path
+*** DONE populate the template with values and save the contents under path
+    CLOSED: [2019-10-04 pią 09:52]
 #+BEGIN_SRC python
 
 with open(filepath, 'w') as file:

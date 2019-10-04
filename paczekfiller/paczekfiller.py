@@ -1,47 +1,55 @@
-import os
-import sy
+import sys
 from paczekfiller import env, meta
 
 DELIM = '_'
+SPACE = ' '
+
 
 class Variable:
     """Representation of the template variable
     that will handle the user input"""
-
     def __init__(self, variable_name):
         self.key = variable_name
-        self.message = self.key.split(DELIM)
+        self.message = self.key.replace(DELIM, SPACE)
+        self.value = None
 
-        self.prompt()
-
-    def prompt():
+    def prompt(self):
         """Ask user for value"""
         return input(self.message)
 
-    def read():
+    def read(self):
         """Read the value and return it"""
         value = self.prompt()
-
+        self.value = value
         return value
+
 
 def template_object(template_name):
     """Return template object"""
     return env.get_template(template_name)
 
+
 def template_content(template):
     """Read the contents of the template file"""
     with open(template.filename) as f:
-            return f.read()
+        return f.read()
+
 
 def extract_variables(template):
     """Extract variables to fill in"""
     contents = template_content(template)
 
-    return meta.find_undeclared_variables(env.parse(contents)) # gives me a set
+    return meta.find_undeclared_variables(
+        env.parse(contents))  # gives me a set
+
 
 def context():
     """Fill out the context"""
-    return { v.key: v.read() for v in (Variable(name) for name in extract_variables())}
+    return {
+        v.key: v.read()
+        for v in (Variable(name) for name in extract_variables())
+    }
+
 
 def main_function(template_name):
     """Load the template, get values for variables

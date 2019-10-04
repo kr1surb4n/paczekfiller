@@ -25,10 +25,13 @@ setup(
     description="Pączek filler - a template file filler, that  outputs rendered template to STDOUT",
     long_description=read("README.rst"),
 
-    packages=find_packages(exclude=('tests',)),
+    packages=find_packages(exclude=('tests','paczekfiller',)),
 
     install_requires=[],
-
+    extras_require={
+        'fzf':  ["fzf"],
+    },
+    scripts=['bin/paczek'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'License :: OSI Approved :: MIT License',
