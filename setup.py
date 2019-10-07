@@ -25,7 +25,7 @@ setup(
     description="Pączek filler - a template file filler, that  outputs rendered template to STDOUT",
     long_description=read("README.rst"),
 
-    packages=find_packages(exclude=('tests','paczekfiller',)),
+    packages=find_packages(exclude=('tests', 'docs',)),
 
     install_requires=[],
     extras_require={
