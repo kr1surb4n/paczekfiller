@@ -9,7 +9,7 @@ __all__ = ['REPOSITORY', 'loader', 'env', 'meta']
 
 PACZEK_FILLINGS = 'PACZEK_FILLINGS'
 
-REPOSITORY = os.environ[PACZEK_FILLINGS]
+REPOSITORY = os.environ.get(PACZEK_FILLINGS, '/tmp')
 
 loader = FileSystemLoader(REPOSITORY, followlinks=True)
 
