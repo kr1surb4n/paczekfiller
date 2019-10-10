@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import io
 import os
 import re
@@ -22,7 +23,7 @@ setup(
     author="Szemek Kot",
     author_email="przemyslaw.kot@gmail.com",
 
-    description="Pączek filler - a template file filler, that  outputs rendered template to STDOUT",
+    description="Paczek filler - a template file filler, that  outputs rendered template to STDOUT",
     long_description=read("README.rst"),
 
     packages=find_packages(exclude=('tests', 'docs',)),
@@ -42,6 +43,5 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
     ],
 )

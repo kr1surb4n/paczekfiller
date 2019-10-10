@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from jinja2 import Environment, meta, FileSystemLoader, select_autoescape
 """paczekfiller - An opinionated, minimal cookiecutter template for Python packages"""  # noqa
