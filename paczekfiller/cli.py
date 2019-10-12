@@ -10,7 +10,6 @@ from paczekfiller.paczekfiller import main_function
 @click.argument('template_name')
 def main(template_name):
     """Console script for copypaster."""
-    click.echo("Pączek is filled...")
 
     main_function(template_name)
 

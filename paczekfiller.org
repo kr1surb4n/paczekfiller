@@ -80,7 +80,24 @@ the later is the moment when i save everything and go home
 
 * colonel board
 
-** TODO 
+** TODO
+
+*** DONE write tests for transform functions
+    CLOSED: [2019-10-11 pią 21:11]
+
+*** write acceptance/integration
+
+*** the defautl filter is unknown
+
+** STARTED 
+
+** DONE 
+   CLOSED: [2019-09-24 wto 14:58]
+
+*** DONE can i set somehow the default value for the variables?
+    CLOSED: [2019-09-24 wto 17:24]
+ default function in jinja2:
+ ~{{ my_variable|default('my_variable is not defined') }}~
 *** preserve file permissions
 *** get current directory
 *** DONE generate new paths
@@ -190,16 +207,6 @@ with open(filepath, 'w') as file:
     file.write(template.render(context))
     # TODO: preserve permissions
 #+END_SRC
-
-** STARTED 
-
-** DONE 
-   CLOSED: [2019-09-24 wto 14:58]
-
-*** DONE can i set somehow the default value for the variables?
-    CLOSED: [2019-09-24 wto 17:24]
- default function in jinja2:
- ~{{ my_variable|default('my_variable is not defined') }}~
 
 
 * Lieutenant notes

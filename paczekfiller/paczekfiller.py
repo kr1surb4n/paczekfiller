@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
-from paczekfiller import env, meta
+from paczekfiller import env, meta, erase_repository_path
+from jinja2 import TemplateNotFound
 
 DELIM = '_'
 SPACE = ' '
@@ -44,17 +45,28 @@ def extract_variables(template):
         env.parse(contents))  # gives me a set
 
 
-def context():
+def context(template):
     """Fill out the context"""
     return {
         v.key: v.read()
-        for v in (Variable(name) for name in extract_variables())
+        for v in (Variable(name) for name in extract_variables(template))
     }
 
 
 def main_function(template_name):
     """Load the template, get values for variables
     and return it to stdout"""
-    template = template_object(template_name)
+    template_name = erase_repository_path(template_name)
+    try:
+        template = template_object(template_name)
 
-    sys.stdout.write(template.render(context()))
+        sys.stdout.write(template.render(context(template)))
+    except TemplateNotFound:
+        sys.stderr.write("No such template: %s" % template_name)
+
+    except OSError:
+        sys.stderr.write("Error loading template file")
+    except Exception as e:
+        sys.stderr.write("Unexptected exception %s" % e)
+
+

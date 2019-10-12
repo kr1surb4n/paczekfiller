@@ -33,6 +33,9 @@ setup(
         'fzf':  ["fzf"],
     },
     scripts=['bin/paczek'],
+    entry_points={'console_scripts': [
+        'paczekfiller = paczekfiller.cli:main',
+    ]},
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'License :: OSI Approved :: MIT License',
