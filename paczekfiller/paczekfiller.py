@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
 import sys
-from paczekfiller import get_jinja_env, meta, erase_repository_path
-from jinja2 import TemplateNotFound
+from paczekfiller import get_jinja_env, meta
+from jinja2 import Template
 
 DELIM = '_'
 SPACE = ' '
-
 
 class Variable:
     """Representation of the template variable
@@ -17,7 +17,7 @@ class Variable:
 
     def prompt(self):
         """Ask user for value"""
-        return input(self.message + ": ")
+        return self.message
 
     def read(self):
         """Read the value and return it"""
@@ -25,6 +25,16 @@ class Variable:
         self.value = value
         return value
 
+class InteractiveVariable(Variable):
+    def prompt(self):
+        """Ask user for value"""
+        return input(self.message + ": ")
+
+def make_variable(name):
+    if os.environ.get('PACZEK_TEST', False):
+        return Variable(name)
+
+    return InteractiveVariable(name)
 
 def template_content(template_path):
     """Read the contents of the template file"""
@@ -34,17 +44,17 @@ def template_content(template_path):
 
 def extract_variables(content):
     """Extract variables to fill in"""
-    env = get_jinja_env()
+    env = get_jinja_env(content)
 
-    return meta.find_undeclared_variables(
-        env.parse(contents))  # gives me a set
+    return meta.find_undeclared_variables(env.parse(content))  # gives me a set
 
 
-def context(template):
+def context(template_content):
     """Fill out the context"""
     return {
         v.key: v.read()
-        for v in [Variable(name) for name in extract_variables(template)]
+        for v in
+        [make_variable(name) for name in extract_variables(template_content)]
     }
 
 
@@ -55,15 +65,14 @@ def main_function(template_name):
     try:
         content = template_content(template_name)
 
+        assert content
+
         template = Template(content)
 
-        return template.render(context(template))
-    except TemplateNotFound:
-        sys.stderr.write("No such template: %s" % template_name)
-
+        return template.render(context(content))
+    except EOFError:
+        sys.stderr.write("Error EOF")
     except OSError:
         sys.stderr.write("Error loading template file")
     except Exception as e:
         sys.stderr.write("Unexptected exception %s" % e)
-
-

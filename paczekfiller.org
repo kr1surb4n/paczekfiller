@@ -82,14 +82,14 @@ the later is the moment when i save everything and go home
 
 ** TODO
 
-*** DONE write tests for transform functions
-    CLOSED: [2019-10-11 pią 21:11]
+*** fillout install dependencies
+*** README.md add link to fzf and cookiecutter
+*** requirements.txt add jinja and check for missing others
+jinja, click
+*** templates -  check default filter and how to use filters
+*** prepare everything for pushing to pypi
+** STARTED
 
-*** write acceptance/integration
-
-*** the defautl filter is unknown
-
-** STARTED 
 
 ** DONE 
    CLOSED: [2019-09-24 wto 14:58]
@@ -207,6 +207,14 @@ with open(filepath, 'w') as file:
     file.write(template.render(context))
     # TODO: preserve permissions
 #+END_SRC
+
+*** DONE write tests for transform functions
+    CLOSED: [2019-10-11 pią 21:11]
+
+*** DONE write acceptance/integration
+    CLOSED: [2019-10-12 sob 17:35]
+
+*** the defautl filter is unknown
 
 
 * Lieutenant notes

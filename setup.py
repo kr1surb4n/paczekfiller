@@ -20,13 +20,13 @@ setup(
     url="https://github.com/borntyping/cookiecutter-pypackage-minimal",
     license='MIT',
 
-    author="Szemek Kot",
+    author="Oren Kot",
     author_email="przemyslaw.kot@gmail.com",
 
-    description="Paczek filler - a template file filler, that  outputs rendered template to STDOUT",
+    description="Pączek filler - simple script for filling out single template files.",
     long_description=read("README.rst"),
 
-    packages=find_packages(exclude=('tests', 'docs',)),
+    packages=find_packages(exclude=('tests', 'docs', 'htmlcov',)),
 
     install_requires=[],
     extras_require={
