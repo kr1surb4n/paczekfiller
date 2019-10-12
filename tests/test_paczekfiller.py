@@ -1,6 +1,5 @@
 import os
 import sys
-import pytest
 import unittest
 import tempfile
 
@@ -14,7 +13,7 @@ class TestVariable(unittest.TestCase):
 
     User input is not tested."""
     messages = [
-       (
+        (
             'Some_nice_message',
             'Some nice message',
         ),

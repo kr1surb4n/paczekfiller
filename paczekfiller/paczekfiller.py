@@ -7,6 +7,7 @@ from jinja2 import Template
 DELIM = '_'
 SPACE = ' '
 
+
 class Variable:
     """Representation of the template variable
     that will handle the user input"""
@@ -25,16 +26,19 @@ class Variable:
         self.value = value
         return value
 
+
 class InteractiveVariable(Variable):
     def prompt(self):
         """Ask user for value"""
         return input(self.message + ": ")
+
 
 def make_variable(name):
     if os.environ.get('PACZEK_TEST', False):
         return Variable(name)
 
     return InteractiveVariable(name)
+
 
 def template_content(template_path):
     """Read the contents of the template file"""
