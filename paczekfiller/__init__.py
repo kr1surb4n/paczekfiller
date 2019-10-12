@@ -7,14 +7,9 @@ __version__ = '0.1.0'
 __author__ = 'Szemek Kot <przemyslaw.kot@gmail.com>'
 __all__ = ['REPOSITORY', 'loader', 'env', 'meta', 'erase_repository_path']
 
-PACZEK_FILLINGS = 'PACZEK_FILLINGS'
+def get_jinja_env():
+    
+    loader = FileSystemLoader(REPOSITORY, followlinks=True)
 
-REPOSITORY = os.environ.get(PACZEK_FILLINGS)
-
-loader = FileSystemLoader(REPOSITORY, followlinks=True)
-
-env = Environment(loader=loader, autoescape=select_autoescape(['html', 'xml']))
-
-
-def erase_repository_path(path):
-    return path.split(REPOSITORY)[1]
+    env = Environment(loader=loader, autoescape=select_autoescape(['html', 'xml']))
+    return env, 

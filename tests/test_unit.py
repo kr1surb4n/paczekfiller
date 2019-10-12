@@ -9,29 +9,19 @@ VARIABLE_NAME="This_is_a_test_variable"
 CONTENTS="""{{This_is_a_test_variable}}, yo!"""
 TEXT='This is a test variable, yo!'
 
-class PaczekTestCaseMixin(unittest.TestCase):
+
+class TestVariable(unittest.TestCase):
     messages = [
             ('Some_nice_message', 'Some nice message',),
             ('Some', 'Some',),
             ('', '',),
     ]
 
-    folder = '/tmp'
-    template_file = 'tttt.txt.tpl'
-
-    @classmethod
-    def setUpClass(self):
-        self.folder = tempfile.mkdtemp()
-        with open(os.path.join(self.folder, self.template_file), 'w') as f:
-            f.write(CONTENTS)
-
-        os.environ.get = MagicMock(return_value=self.folder)
-
     def setUp(self):
+        os.environ['PACZEK_FILLINGS'] = '/tmp'
         from paczekfiller.paczekfiller import Variable
         self.Variable = Variable
 
-class TestVariable(PaczekTestCaseMixin):
 
     def test_message(self):
         """Test for message formatting"""
@@ -49,8 +39,20 @@ class TestVariable(PaczekTestCaseMixin):
                 assert self.Variable(key).read() == message
 
 
-class TestProcessingFunctions(PaczekTestCaseMixin):
+class TestProcessingFunctions(unittest.TestCase):
+    template_file = 'tttt.txt.tpl'
 
+    def setUp(self):
+        self.folder = tempfile.mkdtemp()
+        with open(os.path.join(self.folder, self.template_file), 'w') as f:
+            f.write(CONTENTS)
+
+        os.environ.get = MagicMock(return_value=self.folder)
+        os.environ['PACZEK_FILLINGS'] = self.folder
+        from paczekfiller.paczekfiller import Variable
+        self.Variable = Variable
+
+    """
     @classmethod
     def tearDownClass(self):
         try:
@@ -63,20 +65,14 @@ class TestProcessingFunctions(PaczekTestCaseMixin):
             os.rmdir(self.folder)
         except OSError:
             pass
-
+    """
 
     def test_template_functions(self):
-        from jinja2 import Template, TemplateNotFound
-        from paczekfiller.paczekfiller import template_object, template_content
+        from paczekfiller.paczekfiller import template_content
 
-        template = template_object(self.template_file)
-        assert isinstance(template, Template)
+        filepath = os.path.join(self.folder, self.template_file)
 
-        with self.assertRaises(TemplateNotFound):
-            template_object('i_don_exist.txt.tpl')
-
-
-        assert CONTENTS == template_content(template)
+        assert CONTENTS == template_content(filepath)
 
     def test_extract_variables(self):
         from paczekfiller.paczekfiller import template_object, extract_variables
@@ -91,11 +87,12 @@ class TestProcessingFunctions(PaczekTestCaseMixin):
     def test_main_function(self):
         self.Variable.read = lambda s: s.message
 
-        from io import StringIO
-        with patch('sys.stdout', new_callable=StringIO) as mstdout:
+        #from io import StringIO
+        #with patch('sys.stdout', new_callable=StringIO) as mstdout:
 
-            from paczekfiller.paczekfiller import main_function
+        from paczekfiller.paczekfiller import main_function
 
-            main_function(self.template_file)
+        path = os.path.join(self.folder, self.template_file)
+        output = main_function(path)
 
-            assert mstdout.getvalue() == TEXT
+        assert output == TEXT
