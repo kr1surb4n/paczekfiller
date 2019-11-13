@@ -81,7 +81,6 @@ the later is the moment when i save everything and go home
 * colonel board
 
 ** TODO
-*** remove git files from find
 *** fillout install dependencies
 *** README.md add link to fzf and cookiecutter
 *** requirements.txt add jinja and check for missing others
@@ -90,9 +89,12 @@ jinja, click
 *** prepare everything for pushing to pypi
 *** add templating of filename
 *** script that will add files to paczki (menu would be cool)
-** STARTED
+** SOMEDAY 
+   CLOSED: [2019-11-13 śro 15:41]
 *** SOMEDAY preserve file permissions
     CLOSED: [2019-10-20 nie 14:31]
+** STARTED
+*** remove git files from find
 
 
 ** DONE 
