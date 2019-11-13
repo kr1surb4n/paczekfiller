@@ -1,4 +1,7 @@
+Jinja2
+Click
 bump2version==0.5.10
+
 wheel==0.32.1
 watchdog==0.9.0
 flake8==3.5.0

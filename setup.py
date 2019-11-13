@@ -28,7 +28,7 @@ setup(
 
     packages=find_packages(exclude=('tests', 'docs', 'htmlcov',)),
 
-    install_requires=[],
+    install_requires=['Click', 'Jinja2'],
     extras_require={
         'fzf':  ["fzf"],
     },
