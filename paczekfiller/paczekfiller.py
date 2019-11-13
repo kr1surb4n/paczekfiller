@@ -22,7 +22,7 @@ class Variable:
 
     def read(self):
         """Read the value and return it"""
-        value = self.prompt()
+        value = self.prompt().strip()
         self.value = value
         return value
 
