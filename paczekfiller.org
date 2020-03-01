@@ -81,20 +81,32 @@ the later is the moment when i save everything and go home
 * colonel board
 
 ** TODO
-*** fillout install dependencies
 *** README.md add link to fzf and cookiecutter
-*** requirements.txt add jinja and check for missing others
-jinja, click
 *** templates -  check default filter and how to use filters
 *** prepare everything for pushing to pypi
-*** add templating of filename
+
+
 *** script that will add files to paczki (menu would be cool)
 ** SOMEDAY 
    CLOSED: [2019-11-13 śro 15:41]
 *** SOMEDAY preserve file permissions
     CLOSED: [2019-10-20 nie 14:31]
 ** STARTED
-*** remove git files from find
+*** add templating of filename
+function ~paczekfiller.py#context~ can receive 
+a set of values
+
+from that function I can remove ~extract_variables~ 
+to another function.
+
+~paczekfiller.py#context~ can now be used to 
+template the filename.
+
+first i have to detect that the filename is
+a template.
+
+regexp: ~(\{\{).*?(\}\})~
+
 
 ** DONE 
    CLOSED: [2019-09-24 wto 14:58]
@@ -221,6 +233,13 @@ with open(filepath, 'w') as file:
 
 *** DONE the defautl filter is unknown
     CLOSED: [2019-10-20 nie 14:30]
+*** DONE fillout install dependencies
+    CLOSED: [2019-11-13 śro 18:15]
+*** DONE remove git files from find
+    CLOSED: [2019-11-13 śro 18:10]
+*** DONE requirements.txt add jinja and check for missing others
+    CLOSED: [2019-11-13 śro 18:16]
+jinja, click
 
 
 * Lieutenant notes

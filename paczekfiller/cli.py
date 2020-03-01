@@ -3,7 +3,7 @@
 import sys
 import click
 
-from paczekfiller.paczekfiller import main_function
+from paczekfiller.paczekfiller import main_function as fry
 
 
 def write(filename, contents):
@@ -12,14 +12,12 @@ def write(filename, contents):
 
 
 @click.command()
-@click.argument('template_name')
-@click.argument('output_filename')
-def main(output_filename, template_name):
+@click.argument('paczek')
+@click.argument('output_file')
+def main(output_file, paczek):
     """Console script for Pączek filler."""
 
-    contents = main_function(template_name)
-
-    write(output_filename, contents)
+    write(output_file, fry(paczek))
 
 
 if __name__ == "__main__":

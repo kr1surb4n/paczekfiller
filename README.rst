@@ -28,13 +28,18 @@ There are two commands:
 
 ### paczek
 
-`paczek` is a script that uses `fzf` to fill out a template in your template's folder and save it in current folder.
+`paczek` is a script that uses `fzf` to fill out a template, from your template's folder and save it in your current folder.
 
 If a template file ends with `.tpl`, then it is passed to `paczekfiller`, with the output filename without the `.tpl` extension.
 
-If template file is without `.tpl`, then it's copied to your current folder.
+If template file is without `.tpl`, then it's copied to your current folder, using `cp`
 
-`PACZEK_FILINGS` environment variable stores path to that folder
+### config
+
+Environment variables used by command `paczek`:
+
+| `PACZEK_FILINGS`  |  stores path to folder with template files |
+| `PACZEK_GIT_SAFE` | set to `1` or whatever, when in folder with enabled git, paczek will checkout current branch and then place file |
 
 ### templates
 
@@ -62,4 +67,4 @@ MIT type.
 Authors
 -------
 
-`paczekfiller` was written by `Oren (Przemyslaw Kot) <przemyslaw.kot@gmail.com>`_.
+`paczekfiller` was written by `Kris Urbanski <kris@whereibend.space>`_.

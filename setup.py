@@ -20,10 +20,10 @@ setup(
     url="https://github.com/borntyping/cookiecutter-pypackage-minimal",
     license='MIT',
 
-    author="Oren Kot",
-    author_email="przemyslaw.kot@gmail.com",
+    author="Kris Urbanski",
+    author_email="kris@whereibend.space",
 
-    description="Pączek filler - simple script for filling out single template files.",
+    description="Pączek filler - simple script for filling out single template files",
     long_description=read("README.rst"),
 
     packages=find_packages(exclude=('tests', 'docs', 'htmlcov',)),
@@ -39,11 +39,6 @@ setup(
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
