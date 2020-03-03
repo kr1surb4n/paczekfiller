@@ -1,18 +1,6 @@
 .PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
 
-define BROWSER_PYSCRIPT
-import os, webbrowser, sys
-
-try:
-	from urllib import pathname2url
-except:
-	from urllib.request import pathname2url
-
-webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
-endef
-export BROWSER_PYSCRIPT
-
 define PRINT_HELP_PYSCRIPT
 import re, sys
 
@@ -26,10 +14,8 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
-
-
-
-
+APP = paczekfiller
+APP_TO_PROFILE = paczekfiller   ## can be path to file or python package
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
@@ -54,12 +40,13 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
+	find . -name '*.cprof' -exec rm -f {} +
 
 format:
-	yapf -ir paczekfiller tests
+	yapf -ir $(APP) tests
 
 lint: ## check style with flake8
-	flake8 paczekfiller tests
+	flake8 $(APP) tests
 
 test: ## run tests quickly with the default Python
 	pytest
@@ -67,16 +54,25 @@ test: ## run tests quickly with the default Python
 test-all: ## run tests on every Python version with tox
 	tox
 
+cprofile:
+	python -m cProfile -o tests/app_profile.cprof tests/profile_script.py
+
+inspect: cprofile
+	pyprof2calltree -k -i tests/app_profile.cprof
+
+vprof:
+	vprof -c cpmh $(APP_TO_PROFILE)
+
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source paczekfiller -m pytest
+	coverage run --source $(APP) -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/paczekfiller.rst
+	rm -f docs/$(APP).rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ paczekfiller
+	sphinx-apidoc -o docs/ $(APP)
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
