@@ -15,8 +15,8 @@ def read(filename):
 
 setup(
     name="paczekfiller",
-    version="0.1.0",
-    url="https://github.com/borntyping/cookiecutter-pypackage-minimal",
+    version="0.1.1",
+    url="https://github.com/kr1surb4n/paczekfiller",
     license='MIT',
 
     author="Kris Urbanski",
@@ -24,6 +24,7 @@ setup(
 
     description="Pączek filler - simple script for filling out single template files",
     long_description=read("README.md"),
+    long_description_content_type="text/markdown",
 
     packages=find_packages(exclude=('tests', 'docs', 'htmlcov',)),
 

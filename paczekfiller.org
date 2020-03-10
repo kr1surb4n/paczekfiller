@@ -90,10 +90,11 @@ but before that i need to fix the tests and code
 * colonel board
 
 ** TODO
-*** prepare everything for pushing to pypi
+*** DONE prepare everything for pushing to pypi
+    CLOSED: [2020-03-10 wto 19:02]
 
-
-*** README.md add link to fzf and cookiecutter
+*** DONE README.md add link to fzf and cookiecutter
+    CLOSED: [2020-03-10 wto 19:02]
 *** templates -  check default filter and how to use filters
 *** script that will add files to paczki (menu would be cool)
 ** SOMEDAY 
