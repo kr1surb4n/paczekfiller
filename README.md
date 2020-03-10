@@ -1,16 +1,23 @@
 Pączek filler
 ============
 
-.. image:: https://img.shields.io/pypi/v/paczekfiller.svg
-    :target: https://pypi.python.org/pypi/paczekfiller
-    :alt: Latest PyPI version
+This tool tries to fill in a space next to `cookiecutter`, giving the user ability to
+reuse functionality stored in a single file across different projects.
 
-Script for filling out single Jinja2 templates. This tool tries to
-fill in a space next to `cookiecutter`, giving the user ability to
-reuse functionality across different projects in template files.
-
+Setup a folder with files you reuse in your project.
+Set the `PACZEK_FILINGS` environment variable to point that folder.
+Run `paczek` - will display list of files from which you can choose a file
+that will be put in your current directory. 
+If the file ends with `.tpl` you will be asked for values that will be put inside
+the template.
+ 
 Please remember, redundancy can be removed and files can me merged
 using git. 
+
+Requirements
+------------
+
+- [fzf](https://github.com/junegunn/fzf Fuzzy Search for command line
 
 Usage
 -----
@@ -19,13 +26,6 @@ There are two commands:
 - `paczek`
 - `paczekfiller <template_filepath> <target_filepath>`
 
-### paczekfiller
-
-`paczekfiller` fills out a jinja2 template file and saves it under given target filepath.
-
-`<template_filepath>` is an absolute path.
-
-
 ### paczek
 
 `paczek` is a script that uses `fzf` to fill out a template, from your template's folder and save it in your current folder.
@@ -33,6 +33,13 @@ There are two commands:
 If a template file ends with `.tpl`, then it is passed to `paczekfiller`, with the output filename without the `.tpl` extension.
 
 If template file is without `.tpl`, then it's copied to your current folder, using `cp`
+
+
+### paczekfiller
+
+`paczekfiller` fills out a jinja2 template file and saves it under given target filepath.
+
+`<template_filepath>` is an absolute path.
 
 ### config
 
@@ -53,11 +60,6 @@ Installation
 ------------
 
 `pip install paczekfiller`
-
-Requirements
-^^^^^^^^^^^^
-
-`fzf`
 
 Licence
 -------

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import sys
-from paczekfiller import get_jinja_env, meta
-from jinja2 import Template
+from jinja2 import Template, Environment, meta, select_autoescape
 
 DELIM = '_'
 SPACE = ' '
@@ -13,11 +11,11 @@ def main_function(template_file):
     and return it"""
 
     try:
-        content = load(template_file
+        content = load(template_file)
         assert content, "Couldn't load template"
 
         template = Template(content)
-
+        print(content)
         return template.render(context(content))
     except EOFError:
         sys.stderr.write("Error EOF")
@@ -27,22 +25,10 @@ def main_function(template_file):
         sys.stderr.write("Unexptected exception %s" % e)
 
 
-def load(template):
-    """Read the contents of the template file"""
-    with open(template) as f:
-        return f.read()
-
-
-def make_variable(name):
-    if os.environ.get('PACZEK_TEST', False):
-        return Variable(name)
-
-    return InteractiveVariable(name)
-
-
 def extract_variables(content: str) -> set:
     """Extract variables to fill in"""
-    env = get_jinja_env(content)
+
+    env = Environment(autoescape=select_autoescape(['html', 'xml']))
 
     return meta.find_undeclared_variables(env.parse(content))
 
@@ -58,7 +44,7 @@ def context(template):
     return {
         v.key: v.read()
         for v in
-        [make_variable(name) for name in extract_variables(template)]
+        [Variable(name) for name in extract_variables(template)]
     }
 
 
@@ -72,7 +58,7 @@ class Variable:
 
     def prompt(self):
         """Ask user for value"""
-        return self.message.strip()
+        return input(self.message + ": ").strip()
 
     def read(self):
         """Read the value and return it"""
@@ -82,7 +68,7 @@ class Variable:
         return value_from_cli
 
 
-class InteractiveVariable(Variable):
-    def prompt(self):
-        """Ask user for value"""
-        return input(self.message + ": ").strip()
+def load(template):
+    """Read the contents of the template file"""
+    with open(template) as f:
+        return f.read()
