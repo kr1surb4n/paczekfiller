@@ -4,6 +4,7 @@
 .hypothesis
 
 # ide
+.#*
 .idea
 
 
