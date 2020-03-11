@@ -1,6 +1,6 @@
 * general idea
 this is project that will end up me having
-a softec that will take template and optionaly a destination
+a software that will take template and optionaly a destination
 folder (current dir is default).
 
 'paczekfiller template_file <destination>'
@@ -78,14 +78,24 @@ i will have two cases: when there are variables and not.
 
 the later is the moment when i save everything and go home
 
+<2020-03-05 czw>
+i want to publish this and have it working online and on the pypi
+and i want to write about it and how i use it
+
+also i want to find a tool to make those gifs of how something works.
+they are nice. 
+
+but before that i need to fix the tests and code
+
 * colonel board
 
 ** TODO
-*** README.md add link to fzf and cookiecutter
+*** DONE prepare everything for pushing to pypi
+    CLOSED: [2020-03-10 wto 19:02]
+
+*** DONE README.md add link to fzf and cookiecutter
+    CLOSED: [2020-03-10 wto 19:02]
 *** templates -  check default filter and how to use filters
-*** prepare everything for pushing to pypi
-
-
 *** script that will add files to paczki (menu would be cool)
 ** SOMEDAY 
    CLOSED: [2019-11-13 śro 15:41]

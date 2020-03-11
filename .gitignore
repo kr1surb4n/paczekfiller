@@ -1,6 +1,13 @@
+# python
 *.py[cod]
-
 .venv
+.hypothesis
+
+# ide
+.#*
+.idea
+
+
 
 # C extensions
 *.so

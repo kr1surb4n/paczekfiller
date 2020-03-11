@@ -1,129 +1,66 @@
-import os
-import sys
 import unittest
-import tempfile
 
-VARIABLE_NAME = "This_is_a_test_variable"
-CONTENTS = """{{This_is_a_test_variable}}, yo!"""
-TEXT = 'This is a test variable, yo!'
+from unittest.mock import patch, MagicMock
+from tests.conftest import template_variables
+
+from hypothesis import given, example
+
+from paczekfiller.paczekfiller import Variable
 
 
 class TestVariable(unittest.TestCase):
-    """Test Variable object.
+    """Test Variable object."""
 
-    User input is not tested."""
-    messages = [
-        (
-            'Some_nice_message',
-            'Some nice message',
-        ),
-        (
-            'Some',
-            'Some',
-        ),
-        (
-            '',
-            '',
-        ),
-    ]
+    @given(template_variables())
+    def test_message(self, variables):
+        """Test for message formatting
 
-    def test_message(self):
-        """Test for message formatting"""
-        from paczekfiller.paczekfiller import make_variable
-        for key, message in self.messages:
-            with self.subTest():
-                assert make_variable(key).message == message
+        GIVEN variable name is 'text_text'
+        WHEN Variable object is initiated with such string
+        THEN Variable.message will contain string 'text text'
+        """
+        assert Variable(variables[0]).message == variables[1]
 
-    def test_read(self):
-        """Test read function"""
-        # mock prompt
-        from paczekfiller.paczekfiller import make_variable
-        os.environ['PACZEK_TEST'] = 'True'
+    @given(variables=template_variables())
+    def test_read(self, variables):
+        """Test read function
+        """
 
-        for key, message in self.messages:
-            with self.subTest():
-                assert make_variable(key).read() == message
+        mock = MagicMock(return_value=variables[1].strip())
+        with patch('builtins.input', mock):
+            assert Variable(variables[0]).read() == variables[1].strip()
 
 
 class TestProcessingFunctions(unittest.TestCase):
-    # test template filename
-    template_file = 'tttt.txt.tpl'
+    template = "{{Example_Value}} is {{Another_Value}}"
+    template_output = "Example Value is Another Value"
 
-    # output file path for cli test
-    output_path = '/tmp/test_output'
+    def test_extract_variables(self):
+        from paczekfiller.paczekfiller import extract_variables
 
-    def setUp(self):
-        self.folder = tempfile.mkdtemp()
-        with open(os.path.join(self.folder, self.template_file), 'w') as f:
-            f.write(CONTENTS)
+        value_bag = extract_variables(self.template)
 
-    def tearDown(self):
-        try:
-            import glob
-            for file in glob.glob(os.path.join(self.folder, '**')):
-                try:
-                    os.remove(file)
-                except Exception:
-                    pass
-            os.rmdir(self.folder)
-            os.remove(self.output_path)
-        except OSError:
-            pass
+        assert len(value_bag) == 2
+        assert 'Example_Value' in value_bag
 
-    def test_template_functions(self):
-        from paczekfiller.paczekfiller import (
-            template_content,
-            extract_variables,
-        )
+    def test_context(self):
+        from paczekfiller.paczekfiller import Variable, context
 
-        filepath = os.path.join(self.folder, self.template_file)
+        Variable.read = lambda s: s.message
 
-        contents = template_content(filepath)
+        ctx = context(self.template)
 
-        assert CONTENTS == contents, "Content loading"
-
-        variables = extract_variables(contents)
-
-        assert VARIABLE_NAME in variables, "Loading of variables"
+        assert len(ctx) == 2
+        assert ctx['Example_Value'] == 'Example Value'
 
     def test_main_function(self):
         """Test main_function"""
         from paczekfiller.paczekfiller import Variable, main_function
+
         Variable.read = lambda s: s.message
 
-        path = os.path.join(self.folder, self.template_file)
-        output = main_function(path)
+        mock = MagicMock(return_value=self.template)
+        with patch('paczekfiller.paczekfiller.load', mock):
 
-        assert output == TEXT, "Main function test"
-
-    def test_cli(self):
-        """Test command line interface"""
-
-        import subprocess
-        from paczekfiller.paczekfiller import template_content
-
-        # The base dir for Django's tests is one level up.
-        tests_dir = os.path.dirname(os.path.dirname(__file__))
-        path = os.path.join(self.folder, self.template_file)
-        test_environ = os.environ.copy()
-        test_environ['PACZEK_TEST'] = 'True'
-
-        script = 'paczekfiller.cli'
-        args = [
-            path,
-            self.output_path,
-        ]
-
-        # execute command
-        p = subprocess.run(
-            [sys.executable, '-m', script] + args,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            cwd=tests_dir,
-            env=test_environ,
-            universal_newlines=True,
-        )
-
-        # p.stderr, p.stdout
-        assert p.stderr == ''
-        assert TEXT == template_content(self.output_path)
+            output = main_function('not_important_in_this_test')
+            assert output == self.template_output

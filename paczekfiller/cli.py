@@ -3,7 +3,7 @@
 import sys
 import click
 
-from paczekfiller.paczekfiller import main_function as fry
+from paczekfiller.paczekfiller import main as fry
 
 
 def write(filename, contents):
