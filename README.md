@@ -5,7 +5,7 @@ This tool tries to fill in a space next to `cookiecutter`, giving the user abili
 reuse functionality stored in a single file across different projects.
 
 Setup a folder with files you reuse in your project.
-Set the `PACZEK_FILINGS` environment variable to point that folder.
+Set the `PACZEK_FILLINGS` environment variable to point that folder.
 Run `paczek` - will display list of files from which you can choose a file
 that will be put in your current directory. 
 If the file ends with `.tpl` you will be asked for values that will be put inside
@@ -45,8 +45,8 @@ If template file is without `.tpl`, then it's copied to your current folder, usi
 
 Environment variables used by command `paczek`:
 
-| `PACZEK_FILINGS`  |  stores path to folder with template files |
-| `PACZEK_GIT_SAFE` | set to `1` or whatever, when in folder with enabled git, paczek will checkout current branch and then place file |
+* `PACZEK_FILLINGS`    stores path to folder with template files 
+* `PACZEK_GIT_SAFE`  set to `1` or whatever, when in folder with enabled git, paczek will checkout current branch and then place file 
 
 ### templates
 
