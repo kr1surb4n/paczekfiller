@@ -20,7 +20,7 @@ APP_TO_PROFILE = paczekfiller   ## can be path to file or python package
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean-profiling ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -40,6 +40,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
+
+clean-profiling:
 	find . -name '*.cprof' -exec rm -f {} +
 
 format:
@@ -54,14 +56,15 @@ test: ## run tests quickly with the default Python
 test-all: ## run tests on every Python version with tox
 	tox
 
-cprofile:
-	python -m cProfile -o tests/app_profile.cprof tests/profile_script.py
+cli-profile:	
+	python -m cProfile -o tests/console_profile.cprof tests/profile_script.py
+	rm /tmp/test.out
 
-inspect: cprofile
-	pyprof2calltree -k -i tests/app_profile.cprof
+inspect: cli-profile
+	pyprof2calltree -k -i tests/console_profile.cprof
 
 vprof:
-	vprof -c cpmh $(APP_TO_PROFILE)
+	vprof -c cpmh tests/profile_script.py
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source $(APP) -m pytest
