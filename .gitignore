@@ -6,7 +6,7 @@
 # ide
 .#*
 .idea
-
+.vscode
 
 
 # C extensions
