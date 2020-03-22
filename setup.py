@@ -13,9 +13,10 @@ def read(filename):
     with io.open(filename, mode="r", encoding='utf-8') as fd:
         return re.sub(text_type(r':[a-z]+:`~?(.*?)`'), text_type(r'``\1``'), fd.read())
 
+
 setup(
     name="paczekfiller",
-    version="0.1.2",
+    version="0.1.3",
     url="https://github.com/kr1surb4n/paczekfiller",
     license='MIT',
 
