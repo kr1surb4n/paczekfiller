@@ -11,15 +11,9 @@ paczek_path=$( find $PACZEK_FILLINGS -path *.git -prune -o -type f -print | fzf 
 
 filename=$(basename $paczek_path)
 
-# checkout as new branch if you want to
-# merge files in git enable folder project
-if [[ -v $PACZEK_GIT_SAFE ]]; then
-    git checkout -b $filename
-fi
-
 case $paczek_path in
     *.tpl) # if template file then fill it
-        paczekfiller $paczek_path ${filename:0:-4};;
-        *) # otherwise just copy it
-        cp $paczek_path $filename;;
+    paczekfiller $paczek_path ${filename:0:-4};;
+    *) # otherwise just copy it
+    cp $paczek_path $filename;;
 esac

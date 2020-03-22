@@ -16,7 +16,7 @@ def read(filename):
 
 setup(
     name="paczekfiller",
-    version="0.1.3",
+    version="0.1.4",
     url="https://github.com/kr1surb4n/paczekfiller",
     license='MIT',
 
